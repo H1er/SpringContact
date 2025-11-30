@@ -3,9 +3,9 @@ services:
     container_name: postgres-spring-boot
     image: postgres:latest
     environment:
-      POSTGRES_USER: jesus
+      POSTGRES_USER: h1er
       POSTGRES_PASSWORD: 1234
-      PGDATA: /data/postgres
+      PGDATAdo: /data/postgres
     volumes:
       - db:/data/postgres
     ports:
