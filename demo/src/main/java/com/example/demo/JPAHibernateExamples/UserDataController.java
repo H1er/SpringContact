@@ -2,34 +2,33 @@ package com.example.demo.JPAHibernateExamples;
 
 import com.example.demo.UserData;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Entity;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
-@RequestMapping("api/v0/crudRepository")
+@RequestMapping("api/v0/users")
 public class UserDataController {
     @Autowired
     private UserDataService userDataService;
 
-    @GetMapping("/getall")
+    @GetMapping("/")
     public List<UserData> getAllUserData(){
         return userDataService.getAllUserData();
     }
 
-    @PostMapping("/addsingleuserJSON")
-    public  UserData addUserDataJSON(@RequestBody UserData user){
-        return userDataService.saveUserData(user);
-    }
 
-    @PostMapping("/addlistusersJSON")
-    public String addUserDataJSON(@RequestBody List<UserData> users){
+    @PostMapping("/")
+    public ResponseEntity<String> addUserDataJSON(@RequestBody List<UserData> users){
         String retMsg="All users added OK";
         try{
             for (UserData ud : users){
@@ -37,37 +36,44 @@ public class UserDataController {
             }
         }
         catch (Exception e) {
-            retMsg= "Error when inserting multiple users";
+            System.out.println("Eror when inserting multiple users");
         }
 
-        return retMsg;
+        return ResponseEntity.status(HttpStatus.OK).body("Ok");
     }
 
-    @PostMapping("/addsingleuserParms")
-    public UserData addUserDataParms(@RequestParam("name") String name,
-                                     @RequestParam("role") String role) {
-        UserData ud = new UserData(name, role);
-        return userDataService.saveUserData(ud);
+    @GetMapping("/{id}")
+    public UserData addUserDataParms(@PathVariable Integer id) {
+
+        //System.out.println("Controller: "+userDataService.getUserById(id));
+        return Objects.nonNull(userDataService.getUserById(id))? userDataService.getUserById(id) : new UserData();
     }
 
-    @RequestMapping(value = "/{id}/updateUser", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public UserData updateUser(@RequestBody UserData user, @PathVariable Integer id){
         return userDataService.updateUserData(user, id);
     }
 
-    @RequestMapping(value = "/{id}/updateUserVal", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateUservalidated(@PathVariable Integer id, @Validated @RequestBody UserData user, BindingResult result){
-        if (result.hasErrors()){
-            return ResponseEntity.badRequest().body("Bad validation");
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    public UserData updateUserPartial(@PathVariable Integer id, @RequestBody UserData partial){
+        UserData updated=userDataService.getUserById(id);
+        //System.out.println("Partial recieved: "+partial);
+        //System.out.println("Updated before: "+updated);
+
+        if (partial.getName() != null){
+            updated.setName(partial.getName());
         }
 
-        userDataService.updateUserData(user,id);
+        if (partial.getRole() != null){
+            updated.setRole(partial.getRole());
+        }
 
-        return ResponseEntity.ok("OK");
+        //System.out.println("updated after: "+updated);
+        return userDataService.updateUserData(updated,id);
     }
 
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
-    @ResponseBody
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public UserData deleteUserData(@PathVariable Integer id){
         userDataService.deleteUserById(id);
 

@@ -26,4 +26,8 @@ public class UserData {
         this.name=name;
     }
 
+    public String toString() {
+        return "ID: "+this.id+", NAME: "+this.name+", ROLE: "+this.role;
+    }
+
 }

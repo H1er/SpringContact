@@ -17,10 +17,10 @@ public class DemoApplication {
         //orderService.placeOrder();
 	}
 
-    @GetMapping
+    /*@GetMapping
     public String Hw (){
         System.out.println("Recieved");
         return "XD";
-    }
+    }*/
 
 }
