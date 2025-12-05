@@ -77,7 +77,7 @@ public class UserDataController {
     public UserData deleteUserData(@PathVariable Integer id){
         userDataService.deleteUserById(id);
 
-        return new UserData(null, null);
+        return new UserData(null, null,  null);
     }
 
 
