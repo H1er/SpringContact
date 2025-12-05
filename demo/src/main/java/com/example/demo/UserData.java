@@ -20,10 +20,12 @@ public class UserData {
     private Integer id;
     private String name;
     private String role;
+    private String pwd;
 
-    public UserData(String name, String role){
+    public UserData(String name, String role, String pwd){
         this.role=role;
         this.name=name;
+        this.pwd=pwd;
     }
 
     public String toString() {
