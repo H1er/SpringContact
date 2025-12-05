@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>Login</title>
 </head>
 <body>
-<h1>Jelou</h1>
+<form action="/sec/login" method="post">
+    <label for="username">Usuario</label>
+    <input id="username" name="username" type="text" required>
 
+    <label for="password">Contraseña</label>
+    <input id="password" name="password" type="password" required>
+
+    <button type="submit">Entrar</button>
+
+    <a href="/sec/register">Register</a>
+
+</form>
 </body>
 </html>
