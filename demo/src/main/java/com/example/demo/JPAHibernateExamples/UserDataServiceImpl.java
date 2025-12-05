@@ -46,4 +46,31 @@ public class UserDataServiceImpl implements UserDataService{
 
         return userRepository.findById(id).isEmpty()? null : userRepository.findById(id).get() ;
     }
+
+    public UserData getUserByName(String name){
+        UserData user=new UserData();
+
+        for(UserData usr :this.userRepository.findAll())
+        {
+            if (usr.getName().equals(name)){
+                user=usr;
+            }
+        }
+
+        return user;
+    }
+
+    @Override
+    public String getPwdByName(String name) {
+        UserData user=new UserData();
+
+        for(UserData usr :this.userRepository.findAll())
+        {
+            if (usr.getName().equals(name)){
+                user=usr;
+            }
+        }
+
+        return user.getPwd();
+    }
 }

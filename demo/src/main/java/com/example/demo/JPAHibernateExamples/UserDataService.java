@@ -15,4 +15,8 @@ public interface UserDataService {
 
     UserData getUserById(Integer id);
 
+    UserData getUserByName(String name);
+
+    String getPwdByName(String name);
+
 }
